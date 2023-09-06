@@ -9,43 +9,23 @@ class Functor
 {
 public:
     Functor(std::vector<int> arr) : arr_(arr) {};
+    Functor() {};
     int get_count()
-    {
-        for (int i : arr_)
-        {
-            if (i % 3 == 0)
-            {
-                counter++;
-            }
-        }
+    {        
         return counter;
     };
     int get_sum()
-    {
-        for (int i : arr_)
-        {
-            if (i % 3 == 0)
-            {
-                sum += i;
-            }
-        }
+    {       
         return sum;
     };
-    void operator()()
+    void operator()(int element)
     {
-        get_count();
-        get_sum();
-        show_sum();
-        show_count();
+        if (element % 3 == 0)
+        {
+            counter++;
+            sum += element;
+        }
     };
-    void show_sum()
-    {
-        std::cout << "[OUT] get_sum() = " << sum << std::endl;
-    }
-    void show_count()
-    {
-        std::cout << "[OUT] get_count() = " << counter << std::endl;
-    }
 private:
     std::vector<int> arr_;    
     int counter = 0;
@@ -65,8 +45,10 @@ int main()
 {
     std::vector<int> a{ 4, 1, 3, 6, 25, 54 };
     print(a);
-    Functor functor(a);
-    functor();
+    Functor functor;
+    functor = std::for_each(a.begin(), a.end(), functor);
+    std::cout << "[OUT] get_sum() = " << functor.get_sum() << std::endl;
+    std::cout << "[OUT] get_count() = " << functor.get_count() << std::endl;
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
